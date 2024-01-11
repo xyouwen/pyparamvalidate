@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyparamvalidate"
+version = "0.3.1"
+authors = [
+    { name = "kindtester", email = "kindtester@foxmail.com" },
+]
+description = "一个简单易用的 Python 函数参数验证器。提供多种内置验证器，支持自定义验证规则，帮助开发者轻松进行函数参数验证，提高代码的健壮性和可维护性。"
+
+# 将 README.md 中的内容，显示在 pypi 项目首页中的 Project description
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# 指定项目的依赖包，在 pip install pyparamvalidate 时，会自动安装这些依赖
+dependencies = [
+    'pytest',
+    'schema',
+]
+
+# 添加 urls 的作用是：在 pypi 项目首页显示 Project links
+[project.urls]
+homepage = "https://github.com/xyouwen/pyparamvalidate"
+
+# 添加 github 的作用是：在 pypi 项目首页使用 GitHub statistics
+[project.github]
+repository = "https://github.com/xyouwen/pyparamvalidate"
+
+# 指定要打包的目录
+[tool.hatch.build.targets.wheel]
+packages = ["pyparamvalidate"]
