@@ -16,6 +16,7 @@ def _error_prompt(value, exception_msg=None, rule_des=None, field=None):
     return prompt
 
 
+# python 装饰器基础, 请参考：https://kindtester.blog.csdn.net/article/details/135550880
 def raise_exception(func):
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
@@ -42,18 +43,26 @@ class Validator:
         self._field = field
         self._rule_des = rule_des
 
-    # todo : 在这里添加装饰器器的执行过程
-    '''
-    对的，您的描述是正确的。在Python中，使用 @decorator 语法糖实际上是一个缩写，等同于调用 decorator(target_function)，其中 target_function 是要装饰的函数。
-    在这里，@ParameterValidator("param").is_string() 装饰函数 example_function，实际上相当于 ParameterValidator("param").is_string()(example_function)。
-    '''
     @raise_exception
     def is_string(self, exception_msg=None):
         """
         exception_msg 会在 raise_exception 装饰器中隐式调用。
-        在校验方法中显示指定关键字参数 exception_msg=None, 尽量不要使用 **kwargs 这种写法，方便用户知道传递什么参数。
         """
         return isinstance(self.value, str)
+
+    '''
+   
+    @raise_exception
+    def is_string(self, **kwargs):
+        """
+        虽然这种方式能实现同样的效果，但是不推荐使用，理由是：
+        1. pycharm 无法智能提示；
+        2. 必须要有明确的文档说明，告知用户要传递的参数是什么；
+        3.使用 exception_msg=None 作为关键字参数可以解决这两个问题；
+        """
+        return isinstance(self.value, str)
+        
+     '''
 
     @raise_exception
     def is_not_empty(self, exception_msg=None):

@@ -1,5 +1,4 @@
-pyparamvalidate 是一个简单易用的函数参数验证器。它提供了各种内置验证器，支持自定义验证规则，有助于
-python 开发人员轻松进行函数参数验证，提高代码的健壮性和可维护性。
+pyparamvalidate 是一个简单易用的函数参数验证器。它提供了各种内置验证器，支持自定义验证规则，有助于 python 开发人员轻松进行函数参数验证，提高代码的健壮性和可维护性。
 
 项目地址：[github](https://github.com/xyouwen/pyparamvalidate)
 
