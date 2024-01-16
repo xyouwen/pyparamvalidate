@@ -35,6 +35,7 @@ def raise_exception(func):
 
 
 class RaiseExceptionMeta(type):
+
     def __new__(cls, name, bases, dct):
         for key, value in dct.items():
             if isinstance(value, staticmethod):
@@ -62,6 +63,7 @@ Self = TypeVar('Self', bound='Validator')
 
 
 class Validator(metaclass=RaiseExceptionMeta):
+
     def __init__(self, value, field=None, rule_des=None):
         self.value = value
         self._field = field
@@ -87,21 +89,42 @@ class Validator(metaclass=RaiseExceptionMeta):
 
 
             user_schema = schema.Schema({
+
+                # username 不能为空，且必须是字符串
                 'username': schema.And(str, lambda s: len(s.strip()) > 0, error='Username cannot be empty or contain only spaces'),
+
+                # 使用正则判断 phone_number 格式是否正确
                 'phone_number': schema.Regex(r'^\d{11}$', error='Invalid phone number format. It should be a 10-digit number.'),
+
+                # email 允许为空，如果值不为空，则使用 validate_email 方法进行格式校验
                 'email': schema.And(schema.Or(str, None), lambda s: validate_email(s) if s is not None else True, error='Invalid email format'),
+
+                # age 必须是整形, 且必须大于0小于120
                 'age': schema.And(int, lambda n: 0 <= n <= 120, error='Age must be an integer between 0 and 120'),
-                'gender': schema.And(str, lambda s: s.lower() in ['male', 'female', 'other'], error='Invalid gender'),
+
+                # gender 必须是字符串，且必须为 'male', 'female', ''
+                'gender': schema.And(str, lambda s: s.lower() in ['male', 'female'], error='Invalid gender'),
+
+                # family_members，必须为列表，并使用 capitalize 方法对家庭成员名称首字母大写
                 'family_members': schema.And(schema.Use(list), [schema.Use(capitalize)]),
+
+                # others 是一个嵌套字典
                 'others': {
+
+                    # address 不能为空，且必须是字符串
                     'address': schema.And(str, lambda s: s.strip(), error='Address must be a non-empty string'),
+
+                    # blog 允许为空，如果不为空，则使用正则校验规则
                     'blog': schema.Or(None, schema.Regex(r'^https?://\S+$', error='Invalid blog format. It should be a valid URL starting with http:// or https://')),
+
+                    # other 允许为空和字符串
                     'other': schema.Or(str, None)
                 }
             })
 
         2. 使用 schema 进行校验
 
+            # 待校验的数据
             valid_data = {
             'username': 'JohnDoe',
             'phone_number': '13888886666',
@@ -116,6 +139,7 @@ class Validator(metaclass=RaiseExceptionMeta):
                 }
             }
 
+            # 使用 schema_validate 进行校验
             Validator(valid_data).schema_validate(user_schema)
 
         """
@@ -130,7 +154,7 @@ class Validator(metaclass=RaiseExceptionMeta):
 
     def customize(self, validate_method, *args, exception_msg=None, **kwargs) -> Self:
         """
-        注意：请参考示例 3
+        注意事项：请参考示例 3
 
         示例 1：使用 lambda 函数
             '''
@@ -147,13 +171,14 @@ class Validator(metaclass=RaiseExceptionMeta):
 
         示例 3：如果函数有多个参数，必须将 "待校验参数" 放在第一位
             '''
+            # 方法定义注意事项：如果有多个参数，必须将 "待校验参数" 放在第一位
             def even_number_validator(value, threshold):
-                # 注意：自定义校验方法，如果有多个参数，必须将 "待校验参数" 放在第一位
                 return value % 2 == 0 and value > threshold
 
-            # 正确的调用方式：第一个参数不要传值，exception_msg 必须以关键字参数传值。
+            # 方法调用注意事项：第一个参数不要传值，exception_msg 必须以关键字参数传值。
             Validator(12).customize(even_number_validator, 10, exception_msg='value must be an even number and greater than 10.')
             '''
+
         """
 
         try:

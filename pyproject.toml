@@ -1,38 +1,58 @@
+# 指定构建后端
 [build-system]
+
+# 指定构建所依赖的包，在构建时自动安装依赖包
 requires = ["hatchling"]
+
+# 指定构建后端为 hatchling.build
 build-backend = "hatchling.build"
 
 [project]
+# 项目名称
 name = "pyparamvalidate"
-version = "0.3.2"
+
+# 版本号
+version = "0.3.3"
+
+# 作者
 authors = [
     { name = "kindtester", email = "kindtester@foxmail.com" },
 ]
-description = "一个简单易用的 Python 函数参数验证器。提供多种内置验证器，支持自定义验证规则，帮助开发者轻松进行函数参数验证，提高代码的健壮性和可维护性。"
 
-# 将 README.md 中的内容，显示在 pypi 项目首页中的 Project description
+# 项目描述
+description = "一个简单易用的 Python 函数参数校验装饰器。提供多种内置验证器，支持自定义验证规则，帮助开发者轻松进行函数参数校验。"
+
+# 说明文档: 该说明文档的内容将展示在 pypi 项目首页的 Project description, 此 README.md 就是同级目录下的 README.md 文档
 readme = "README.md"
+
+# python 版本要求
 requires-python = ">=3.9"
+
+# 分类器描述，用于说明包的元数据信息，以便开发者和用户能够更容易地了解该包的特性、兼容性和用途
+# 下面是一个典型的分类器，描述了该项目适用于 Python 3，采用 MIT 许可证，且独立于操作系统
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
-# 指定项目的依赖包，在 pip install pyparamvalidate 时，会自动安装这些依赖
+# 项目的依赖包：在 pip install pyparamvalidate 时，会自动安装这些依赖包
 dependencies = [
     'pytest',
     'schema',
 ]
 
-# 添加 urls 的作用是：在 pypi 项目首页显示 Project links
+
+# 相关链接：指定之后可以在 pypi 项目首页的 Project links 显示该链接
 [project.urls]
 homepage = "https://github.com/xyouwen/pyparamvalidate"
 
-# 添加 github 的作用是：在 pypi 项目首页使用 GitHub statistics
+# github 仓库：指定之后可以在 pypi 项目首页使用 GitHub statistics
 [project.github]
 repository = "https://github.com/xyouwen/pyparamvalidate"
 
 # 指定要打包的目录
 [tool.hatch.build.targets.wheel]
+
+# 此处只打包 pyparamvalidate 及其所有子目录
 packages = ["pyparamvalidate"]

@@ -18,20 +18,6 @@ def validate_email(value):
     return bool(re.match(email_regex, value))
 
 
-reference_correct_data = {
-    'username': 'JohnDoe',
-    'phone_number': '13888886666',
-    'email': 'john@example.com',
-    'age': 25,
-    'gender': 'male',
-    'family_members': ['Alice', 'Bob', 'Charlie'],
-    'others': {
-        'address': '123 Main St',
-        'blog': 'http://example.com',
-        'other': 'Some additional info'
-    }
-}
-
 user_schema = schema.Schema({
     'username': schema.And(str, lambda s: len(s.strip()) > 0,
                            error='Username cannot be empty or contain only spaces'),

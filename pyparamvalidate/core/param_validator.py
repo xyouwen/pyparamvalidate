@@ -148,7 +148,7 @@ class ParameterValidator:
 
     def customize(self, validate_method, *args, exception_msg=None, **kwargs) -> Self:
         """
-        注意：请参考示例 3
+        注意事项：请参考示例 3
 
         示例 1：使用 lambda 函数
             '''
@@ -169,11 +169,12 @@ class ParameterValidator:
 
         示例 3：如果函数有多个参数，必须将 "待校验参数" 放在第一位
             '''
+            # 方法定义注意事项：如果有多个参数，必须将 "待校验参数" 放在第一位
             def even_number_validator(value, threshold):
-                # 注意：自定义校验方法，如果有多个参数，必须将 "待校验参数" 放在第一位
+
                 return value % 2 == 0 and value > threshold
 
-            # 正确的调用方式：第一个参数不要传值，exception_msg 必须以关键字参数传值。
+            # 方法调用注意事项：第一个参数不要传值，exception_msg 必须以关键字参数传值。
             @ParameterValidator("param").customize(even_number_validator, 10, exception_msg="Value must be an even number")
             def example_function(param):
                 return param
